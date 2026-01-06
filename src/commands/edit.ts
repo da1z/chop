@@ -1,5 +1,4 @@
 import type { Command } from "commander";
-import { $ } from "bun";
 import { tmpdir } from "os";
 import { join } from "path";
 import { TaskStore } from "../storage/task-store.ts";
@@ -121,11 +120,14 @@ export function registerEditCommand(program: Command): void {
         const originalContent = taskToYaml(task);
         await Bun.write(tempPath, originalContent);
 
-        // Get editor from environment
-        const editor = process.env.EDITOR || process.env.VISUAL || "vi";
+        // Get editor from environment and parse into command + args
+        const editorEnv = process.env.EDITOR || process.env.VISUAL || "vi";
+        const editorParts = editorEnv.split(/\s+/).filter(Boolean);
+        const editorCmd = editorParts[0] || "vi";
+        const editorArgs = [...editorParts.slice(1), tempPath];
 
         // Open editor
-        const proc = Bun.spawn([editor, tempPath], {
+        const proc = Bun.spawn([editorCmd, ...editorArgs], {
           stdin: "inherit",
           stdout: "inherit",
           stderr: "inherit",

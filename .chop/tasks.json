@@ -6,10 +6,10 @@
       "id": "aeceda6-7",
       "title": "fix edit command is not starting editor",
       "description": "➜  chop git:(mvp) ✗ ch edit 0fcbae9-5                                                   \nExecutable not found in $PATH: \"cursor -n --wait\"\n➜  chop git:(mvp) ✗ cursor\n➜  chop git:(mvp) ✗ which cursor\n/Users/kirylchetyrbak/.local/bin/cursor",
-      "status": "open",
+      "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:28:36.963Z",
-      "updatedAt": "2026-01-06T20:29:30.224Z"
+      "updatedAt": "2026-01-06T20:32:46.666Z"
     },
     {
       "id": "0fcbae9-5",
@@ -17,7 +17,7 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:25:37.946Z",
-      "updatedAt": "2026-01-06T20:29:30.224Z"
+      "updatedAt": "2026-01-06T20:32:46.666Z"
     },
     {
       "id": "dbb53a1-1",
@@ -25,7 +25,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:00:32.878Z",
-      "updatedAt": "2026-01-06T20:29:30.224Z"
+      "updatedAt": "2026-01-06T20:32:46.666Z"
     },
     {
       "id": "7fee846-2",
@@ -33,7 +33,7 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:01:24.945Z",
-      "updatedAt": "2026-01-06T20:29:30.224Z"
+      "updatedAt": "2026-01-06T20:32:46.666Z"
     },
     {
       "id": "f5d007f-3",
@@ -41,7 +41,7 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:03:35.784Z",
-      "updatedAt": "2026-01-06T20:29:30.224Z"
+      "updatedAt": "2026-01-06T20:32:46.666Z"
     },
     {
       "id": "6d96aea-4",
@@ -49,7 +49,7 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:22:49.068Z",
-      "updatedAt": "2026-01-06T20:29:30.224Z"
+      "updatedAt": "2026-01-06T20:32:46.666Z"
     },
     {
       "id": "0420ee2-6",
@@ -57,7 +57,7 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:26:34.176Z",
-      "updatedAt": "2026-01-06T20:29:30.224Z"
+      "updatedAt": "2026-01-06T20:32:46.666Z"
     }
   ]
 }
