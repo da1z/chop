@@ -25,11 +25,49 @@ function formatStatus(status: string): string {
   return `${style.color}${style.text}${colors.reset}`;
 }
 
+// Get visible length of a string (excluding ANSI codes)
+function visibleLength(str: string): number {
+  return str.replace(/\x1b\[[0-9;]*m/g, "").length;
+}
+
 // Pad a string to a specific width
 function pad(str: string, width: number): string {
-  const visibleLength = str.replace(/\x1b\[[0-9;]*m/g, "").length;
-  const padding = width - visibleLength;
+  const len = visibleLength(str);
+  const padding = width - len;
   return str + " ".repeat(Math.max(0, padding));
+}
+
+// Truncate a string to a max visible length, accounting for ANSI codes
+function truncate(str: string, maxLength: number): string {
+  if (maxLength <= 0) return "";
+  if (visibleLength(str) <= maxLength) return str;
+
+  // Simple truncation: iterate through and count visible chars
+  let result = "";
+  let visible = 0;
+  let i = 0;
+
+  while (i < str.length && visible < maxLength - 1) {
+    // Check for ANSI escape sequence
+    if (str[i] === "\x1b" && str[i + 1] === "[") {
+      const end = str.indexOf("m", i);
+      if (end !== -1) {
+        result += str.slice(i, end + 1);
+        i = end + 1;
+        continue;
+      }
+    }
+    result += str[i];
+    visible++;
+    i++;
+  }
+
+  return result + "\u2026"; // ellipsis character
+}
+
+// Get terminal width or default
+function getTerminalWidth(): number {
+  return process.stdout.columns || 80;
 }
 
 // Format a single task for list display
@@ -39,7 +77,15 @@ export function formatTaskRow(task: Task, allTasks: Task[]): string {
 
   const id = pad(task.id, 12);
   const status = pad(formatStatus(task.status), 22); // Extra width for ANSI codes
-  const title = blockedMarker + task.title;
+
+  // Calculate available width for title: terminal width - id (12) - status (12) - spaces (2)
+  const termWidth = getTerminalWidth();
+  const titleMaxWidth = termWidth - 12 - 12 - 2;
+
+  const blockedMarkerLen = visibleLength(blockedMarker);
+  const titleWidth = titleMaxWidth - blockedMarkerLen;
+  const truncatedTitle = truncate(task.title, titleWidth);
+  const title = blockedMarker + truncatedTitle;
 
   return `${id} ${status} ${title}`;
 }
