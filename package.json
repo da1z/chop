@@ -13,6 +13,7 @@
     "build": "bun build ./index.ts --outdir ./dist --target bun"
   },
   "devDependencies": {
+    "@total-typescript/tsconfig": "^1.0.4",
     "@types/bun": "latest",
     "@types/prompts": "^2.4.9"
   },
