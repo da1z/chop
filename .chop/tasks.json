@@ -1,14 +1,22 @@
 {
   "version": 1,
-  "lastSequence": 9,
+  "lastSequence": 10,
   "tasks": [
+    {
+      "id": "9e670a9-10",
+      "title": "fix typescript errors",
+      "status": "open",
+      "dependsOn": [],
+      "createdAt": "2026-01-06T20:46:58.927Z",
+      "updatedAt": "2026-01-06T20:48:09.853Z"
+    },
     {
       "id": "0fcbae9-5",
       "title": "create bash scrippt called loop that will execute claude code N times",
-      "status": "open",
+      "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:25:37.946Z",
-      "updatedAt": "2026-01-06T20:40:50.475Z",
+      "updatedAt": "2026-01-06T20:48:09.853Z",
       "description": "here is claude code cli reference https://code.claude.com/docs/en/cli-reference.md the loop should launch claude code with prompt something like \"execute ch pop to get task you need to work on. implement the task and make sure all tests pass and not typescript errors. when task is finished markit as done using ch done <id> and commit changes using pk commit create -am <message>.\""
     },
     {
@@ -17,7 +25,7 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:35:36.534Z",
-      "updatedAt": "2026-01-06T20:40:50.475Z"
+      "updatedAt": "2026-01-06T20:48:09.853Z"
     },
     {
       "id": "aeceda6-7",
@@ -26,7 +34,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:28:36.963Z",
-      "updatedAt": "2026-01-06T20:40:50.475Z"
+      "updatedAt": "2026-01-06T20:48:09.853Z"
     },
     {
       "id": "dbb53a1-1",
@@ -34,7 +42,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:00:32.878Z",
-      "updatedAt": "2026-01-06T20:40:50.475Z"
+      "updatedAt": "2026-01-06T20:48:09.853Z"
     },
     {
       "id": "7fee846-2",
@@ -42,7 +50,7 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:01:24.945Z",
-      "updatedAt": "2026-01-06T20:40:50.475Z"
+      "updatedAt": "2026-01-06T20:48:09.853Z"
     },
     {
       "id": "f5d007f-3",
@@ -50,7 +58,7 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:03:35.784Z",
-      "updatedAt": "2026-01-06T20:40:50.475Z"
+      "updatedAt": "2026-01-06T20:48:09.853Z"
     },
     {
       "id": "6d96aea-4",
@@ -58,7 +66,7 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:22:49.068Z",
-      "updatedAt": "2026-01-06T20:40:50.475Z"
+      "updatedAt": "2026-01-06T20:48:09.853Z"
     },
     {
       "id": "0420ee2-6",
@@ -66,7 +74,7 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:26:34.176Z",
-      "updatedAt": "2026-01-06T20:40:50.475Z"
+      "updatedAt": "2026-01-06T20:48:09.853Z"
     },
     {
       "id": "daa9573-9",
@@ -74,7 +82,7 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:38:01.447Z",
-      "updatedAt": "2026-01-06T20:40:50.475Z"
+      "updatedAt": "2026-01-06T20:48:09.853Z"
     }
   ]
 }
