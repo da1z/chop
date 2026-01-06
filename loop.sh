@@ -77,15 +77,14 @@ parse_stream() {
         case "$tool_name" in
         Bash)
           desc=$(echo "$line" | jq -r '.message.content[0].input.description // empty')
+          cmd=$(echo "$line" | jq -r '.message.content[0].input.command // empty')
+
+          # Always show the command
           if [[ -n "$desc" ]]; then
             echo -e "${CYAN}[$turn]${NC} ${YELLOW}⚡ $tool_name${NC}: $desc"
+            echo -e "     ${GRAY}└─ $ ${cmd}${NC}"
           else
-            cmd=$(echo "$line" | jq -r '.message.content[0].input.command // empty')
-            if [[ ${#cmd} -gt 60 ]]; then
-              echo -e "${CYAN}[$turn]${NC} ${YELLOW}⚡ $tool_name${NC}: ${GRAY}${cmd:0:60}...${NC}"
-            else
-              echo -e "${CYAN}[$turn]${NC} ${YELLOW}⚡ $tool_name${NC}: ${GRAY}${cmd}${NC}"
-            fi
+            echo -e "${CYAN}[$turn]${NC} ${YELLOW}⚡ $tool_name${NC}: ${GRAY}$ ${cmd}${NC}"
           fi
           ;;
         Read)
@@ -192,10 +191,11 @@ for ((i = 1; i <= N; i++)); do
 
   if [ "$N" -eq 1 ]; then
     # Interactive mode for single run - no streaming
-    claude "$PROMPT"
+    docker sandbox run claude "$PROMPT"
   else
     # Non-interactive mode with streaming progress
-    claude -p "$PROMPT" --dangerously-skip-permissions --output-format stream-json --verbose 2>&1 | parse_stream
+    # Use script to provide pseudo-TTY since docker sandbox requires TTY
+    script -q /dev/null docker sandbox run claude -p "$PROMPT" --dangerously-skip-permissions --output-format stream-json --verbose 2>&1 | parse_stream
   fi
 
   echo ""

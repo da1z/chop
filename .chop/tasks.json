@@ -135,10 +135,10 @@
     {
       "id": "a7323c1-18",
       "title": "currently loop.sh reports realtime progress. make it show actuall bash command for Bash tool",
-      "status": "open",
+      "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T21:54:53.893Z",
-      "updatedAt": "2026-01-06T21:54:53.893Z"
+      "updatedAt": "2026-01-06T23:39:32.450Z"
     },
     {
       "id": "be3614d-19",
