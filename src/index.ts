@@ -9,6 +9,7 @@ import { registerMoveCommand } from "./commands/move.ts";
 import { registerArchiveCommand } from "./commands/archive.ts";
 import { registerPurgeCommand } from "./commands/purge.ts";
 import { registerEditCommand } from "./commands/edit.ts";
+import { registerShowCommand } from "./commands/show.ts";
 
 const program = new Command();
 
@@ -28,6 +29,7 @@ registerMoveCommand(program);
 registerArchiveCommand(program);
 registerPurgeCommand(program);
 registerEditCommand(program);
+registerShowCommand(program);
 
 // Show help if no command provided
 if (process.argv.length === 2) {
