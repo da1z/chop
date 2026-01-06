@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastSequence": 18,
+  "lastSequence": 19,
   "tasks": [
     {
       "id": "a86999e-15",
@@ -13,10 +13,10 @@
     {
       "id": "2ddb19e-17",
       "title": "add dev container using this claude code guide https://code.claude.com/docs/en/devcontainer.md ",
-      "status": "open",
+      "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T21:36:27.993Z",
-      "updatedAt": "2026-01-06T21:54:53.893Z"
+      "updatedAt": "2026-01-06T22:01:46.273Z"
     },
     {
       "id": "e540019-12",
@@ -139,6 +139,14 @@
       "dependsOn": [],
       "createdAt": "2026-01-06T21:54:53.893Z",
       "updatedAt": "2026-01-06T21:54:53.893Z"
+    },
+    {
+      "id": "be3614d-19",
+      "title": "add gh workflow to build, test and publish to npm using bun https://bun.com/docs/pm/cli/publish . the workflow should create pr with version bump after publish succesful",
+      "status": "open",
+      "dependsOn": [],
+      "createdAt": "2026-01-06T21:57:57.026Z",
+      "updatedAt": "2026-01-06T21:57:57.026Z"
     }
   ]
 }
