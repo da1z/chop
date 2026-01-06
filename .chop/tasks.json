@@ -1,14 +1,22 @@
 {
   "version": 1,
-  "lastSequence": 17,
+  "lastSequence": 18,
   "tasks": [
+    {
+      "id": "a86999e-15",
+      "title": "bug: currently when task update it updates updatedAt on all tasks",
+      "status": "done",
+      "dependsOn": [],
+      "createdAt": "2026-01-06T21:07:41.364Z",
+      "updatedAt": "2026-01-06T21:57:23.423Z"
+    },
     {
       "id": "2ddb19e-17",
       "title": "add dev container using this claude code guide https://code.claude.com/docs/en/devcontainer.md ",
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T21:36:27.993Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     },
     {
       "id": "e540019-12",
@@ -16,7 +24,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:53:10.329Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     },
     {
       "id": "9e670a9-10",
@@ -24,7 +32,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:46:58.927Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     },
     {
       "id": "0fcbae9-5",
@@ -32,7 +40,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:25:37.946Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z",
+      "updatedAt": "2026-01-06T21:54:53.893Z",
       "description": "here is claude code cli reference https://code.claude.com/docs/en/cli-reference.md the loop should launch claude code with prompt something like \"execute ch pop to get task you need to work on. implement the task and make sure all tests pass and not typescript errors. when task is finished markit as done using ch done <id> and commit changes using pk commit create -am <message>.\""
     },
     {
@@ -41,7 +49,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:35:36.534Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     },
     {
       "id": "aeceda6-7",
@@ -50,7 +58,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:28:36.963Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     },
     {
       "id": "dbb53a1-1",
@@ -58,7 +66,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:00:32.878Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     },
     {
       "id": "7fee846-2",
@@ -66,7 +74,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:01:24.945Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     },
     {
       "id": "f5d007f-3",
@@ -74,7 +82,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:03:35.784Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     },
     {
       "id": "6d96aea-4",
@@ -82,7 +90,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:22:49.068Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     },
     {
       "id": "0420ee2-6",
@@ -90,7 +98,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:26:34.176Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     },
     {
       "id": "daa9573-9",
@@ -98,7 +106,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:38:01.447Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     },
     {
       "id": "e06c5e9-11",
@@ -106,7 +114,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:51:02.441Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     },
     {
       "id": "11e3052-13",
@@ -114,15 +122,7 @@
       "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:57:45.883Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
-    },
-    {
-      "id": "a86999e-15",
-      "title": "bug: currently when task update it updates updatedAt on all tasks",
-      "status": "open",
-      "dependsOn": [],
-      "createdAt": "2026-01-06T21:07:41.364Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     },
     {
       "id": "38d6475-16",
@@ -130,7 +130,15 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T21:30:21.905Z",
-      "updatedAt": "2026-01-06T21:53:00.768Z"
+      "updatedAt": "2026-01-06T21:54:53.893Z"
+    },
+    {
+      "id": "a7323c1-18",
+      "title": "currently loop.sh reports realtime progress. make it show actuall bash command for Bash tool",
+      "status": "open",
+      "dependsOn": [],
+      "createdAt": "2026-01-06T21:54:53.893Z",
+      "updatedAt": "2026-01-06T21:54:53.893Z"
     }
   ]
 }

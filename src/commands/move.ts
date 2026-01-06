@@ -24,6 +24,8 @@ async function moveTask(id: string, position: "top" | "bottom"): Promise<void> {
       data.tasks.push(task);
     }
 
+    task.updatedAt = new Date().toISOString();
+
     return { data, result: task };
   });
 

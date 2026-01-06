@@ -169,6 +169,7 @@ export function registerEditCommand(program: Command): void {
           task.description = editData.description;
           task.status = editData.status;
           task.dependsOn = editData.depends_on;
+          task.updatedAt = new Date().toISOString();
 
           return { data, result: task };
         });

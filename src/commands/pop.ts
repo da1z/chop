@@ -21,6 +21,7 @@ export function registerPopCommand(program: Command): void {
 
           // Mark as in-progress
           task.status = "in-progress";
+          task.updatedAt = new Date().toISOString();
 
           return { data, result: task };
         });

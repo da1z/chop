@@ -25,6 +25,7 @@ export function registerStatusCommand(program: Command): void {
           }
 
           task.status = status as TaskStatus;
+          task.updatedAt = new Date().toISOString();
 
           return { data, result: task };
         });

@@ -73,9 +73,6 @@ export class TaskStore {
       }
 
       const { data: newData, result } = operation(data);
-      newData.tasks.forEach((task) => {
-        task.updatedAt = new Date().toISOString();
-      });
       await this.writeTasks(newData);
       return result;
     });

@@ -20,6 +20,7 @@ export function registerDoneCommand(program: Command): void {
           }
 
           task.status = "done";
+          task.updatedAt = new Date().toISOString();
 
           return { data, result: task };
         });
