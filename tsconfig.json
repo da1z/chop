@@ -1,20 +1,8 @@
 {
   "extends": "@total-typescript/tsconfig/bundler/no-dom",
   "compilerOptions": {
-    // Bun-specific: use ESNext for latest features
-    "lib": ["ESNext"],
-    "target": "ESNext",
-
     // Required for Bun's .ts extension imports
-    "allowImportingTsExtensions": true,
-
-    // Additional strictness
-    "noFallthroughCasesInSwitch": true,
-
-    // Relaxed checks (disabled by default)
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    "allowImportingTsExtensions": true
   },
   "include": ["src/**/*.ts", "tests/**/*.ts", "index.ts"],
   "exclude": ["node_modules", "dist"]
