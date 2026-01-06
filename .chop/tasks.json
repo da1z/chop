@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "lastSequence": 3,
+  "tasks": [
+    {
+      "id": "dbb53a1-1",
+      "title": "Use nicer prompting from user. maybe use existing npm package for interactive prompt instead of requiring 1 or 2 input",
+      "status": "open",
+      "dependsOn": [],
+      "createdAt": "2026-01-06T20:00:32.878Z",
+      "updatedAt": "2026-01-06T20:03:35.784Z"
+    },
+    {
+      "id": "7fee846-2",
+      "title": "if title is too long trancate it on list view",
+      "status": "open",
+      "dependsOn": [],
+      "createdAt": "2026-01-06T20:01:24.945Z",
+      "updatedAt": "2026-01-06T20:03:35.784Z"
+    },
+    {
+      "id": "f5d007f-3",
+      "title": "add command that displays full task info by id",
+      "status": "open",
+      "dependsOn": [],
+      "createdAt": "2026-01-06T20:03:35.784Z",
+      "updatedAt": "2026-01-06T20:03:35.784Z"
+    }
+  ]
+}
