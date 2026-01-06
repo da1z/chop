@@ -7,6 +7,7 @@ import { confirm } from "../utils/prompts.ts";
 export function registerArchiveCommand(program: Command): void {
   program
     .command("archive <id>")
+    .alias("ar")
     .description("Archive a task")
     .action(async (id: string) => {
       try {

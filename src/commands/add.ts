@@ -12,6 +12,7 @@ function collectDependencies(value: string, previous: string[]): string[] {
 export function registerAddCommand(program: Command): void {
   program
     .command("add <title>")
+    .alias("a")
     .description("Add a new task to the queue")
     .option("-t, --top", "Add to top of queue")
     .option("-b, --bottom", "Add to bottom of queue (default)")

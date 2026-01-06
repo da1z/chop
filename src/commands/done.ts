@@ -6,6 +6,7 @@ import { TaskNotFoundError } from "../errors.ts";
 export function registerDoneCommand(program: Command): void {
   program
     .command("done <id>")
+    .alias("d")
     .description("Mark a task as done")
     .action(async (id: string) => {
       try {

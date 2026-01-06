@@ -7,6 +7,7 @@ import { TaskNotFoundError } from "../errors.ts";
 export function registerShowCommand(program: Command): void {
   program
     .command("show <id>")
+    .alias("s")
     .description("Display full task info by ID")
     .action(async (id: string) => {
       try {

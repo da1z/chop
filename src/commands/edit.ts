@@ -103,6 +103,7 @@ function yamlToTaskEdit(content: string): TaskEditData {
 export function registerEditCommand(program: Command): void {
   program
     .command("edit <id>")
+    .alias("e")
     .description("Edit a task in your default editor")
     .action(async (id: string) => {
       try {

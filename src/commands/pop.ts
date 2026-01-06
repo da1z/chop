@@ -6,6 +6,7 @@ import { formatTaskDetail } from "../utils/display.ts";
 export function registerPopCommand(program: Command): void {
   program
     .command("pop")
+    .alias("p")
     .description("Get the next available task and mark it as in-progress")
     .action(async () => {
       try {

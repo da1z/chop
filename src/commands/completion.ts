@@ -21,7 +21,7 @@ _chop_completions() {
         cword=$COMP_CWORD
     fi
 
-    local commands="init add list pop done status move archive purge edit show completion"
+    local commands="init add a list ls pop p done d status move mv mt mb archive ar purge edit e show s completion"
 
     # If completing the first argument (command name)
     if [[ $cword -eq 1 ]]; then
@@ -32,7 +32,7 @@ _chop_completions() {
     # If completing argument for commands that need task ID
     local cmd="\${words[1]}"
     case "$cmd" in
-        done|move|archive|edit|show)
+        done|d|move|mv|mt|mb|archive|ar|edit|e|show|s)
             # Get task IDs from chop
             local task_ids
             task_ids=$(chop completion --list-ids 2>/dev/null)
@@ -60,15 +60,25 @@ _chop() {
     commands=(
         'init:Initialize chop in current directory'
         'add:Add a new task'
+        'a:Add a new task (alias)'
         'list:List tasks'
+        'ls:List tasks (alias)'
         'pop:Start working on next task'
+        'p:Pop next task (alias)'
         'done:Mark a task as done'
+        'd:Mark done (alias)'
         'status:Show current task status'
         'move:Move a task in the queue'
+        'mv:Move task (alias)'
+        'mt:Move task to top'
+        'mb:Move task to bottom'
         'archive:Archive a task'
+        'ar:Archive task (alias)'
         'purge:Purge archived tasks'
         'edit:Edit a task'
+        'e:Edit task (alias)'
         'show:Display full task info'
+        's:Show task (alias)'
         'completion:Generate shell completions'
     )
 
@@ -82,7 +92,7 @@ _chop() {
             ;;
         args)
             case $words[2] in
-                done|move|archive|edit|show)
+                done|d|move|mv|mt|mb|archive|ar|edit|e|show|s)
                     local -a task_ids
                     task_ids=(\${(f)"$(chop completion --list-ids 2>/dev/null)"})
                     _describe 'task id' task_ids
@@ -108,38 +118,61 @@ function generateFishCompletion(): string {
 complete -c chop -f
 complete -c ch -f
 
-# Commands
-complete -c chop -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a init -d "Initialize chop in current directory"
-complete -c chop -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a add -d "Add a new task"
-complete -c chop -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a list -d "List tasks"
-complete -c chop -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a pop -d "Start working on next task"
-complete -c chop -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a done -d "Mark a task as done"
-complete -c chop -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a status -d "Show current task status"
-complete -c chop -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a move -d "Move a task in the queue"
-complete -c chop -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a archive -d "Archive a task"
-complete -c chop -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a purge -d "Purge archived tasks"
-complete -c chop -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a edit -d "Edit a task"
-complete -c chop -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a show -d "Display full task info"
-complete -c chop -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a completion -d "Generate shell completions"
+# All commands including aliases
+set -l all_cmds init add a list ls pop p done d status move mv mt mb archive ar purge edit e show s completion
+
+# Commands for chop
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a init -d "Initialize chop in current directory"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a add -d "Add a new task"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a a -d "Add a new task (alias)"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a list -d "List tasks"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a ls -d "List tasks (alias)"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a pop -d "Start working on next task"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a p -d "Pop next task (alias)"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a done -d "Mark a task as done"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a d -d "Mark done (alias)"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a status -d "Show current task status"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a move -d "Move a task in the queue"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a mv -d "Move task (alias)"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a mt -d "Move task to top"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a mb -d "Move task to bottom"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a archive -d "Archive a task"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a ar -d "Archive task (alias)"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a purge -d "Purge archived tasks"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a edit -d "Edit a task"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a e -d "Edit task (alias)"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a show -d "Display full task info"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a s -d "Show task (alias)"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a completion -d "Generate shell completions"
 
 # Task ID completion for commands that need it
-complete -c chop -n "__fish_seen_subcommand_from done move archive edit show" -a "(chop completion --list-ids 2>/dev/null)"
+complete -c chop -n "__fish_seen_subcommand_from done d move mv mt mb archive ar edit e show s" -a "(chop completion --list-ids 2>/dev/null)"
 
 # Same for ch alias
-complete -c ch -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a init -d "Initialize chop in current directory"
-complete -c ch -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a add -d "Add a new task"
-complete -c ch -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a list -d "List tasks"
-complete -c ch -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a pop -d "Start working on next task"
-complete -c ch -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a done -d "Mark a task as done"
-complete -c ch -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a status -d "Show current task status"
-complete -c ch -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a move -d "Move a task in the queue"
-complete -c ch -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a archive -d "Archive a task"
-complete -c ch -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a purge -d "Purge archived tasks"
-complete -c ch -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a edit -d "Edit a task"
-complete -c ch -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a show -d "Display full task info"
-complete -c ch -n "not __fish_seen_subcommand_from init add list pop done status move archive purge edit show completion" -a completion -d "Generate shell completions"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a init -d "Initialize chop in current directory"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a add -d "Add a new task"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a a -d "Add a new task (alias)"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a list -d "List tasks"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a ls -d "List tasks (alias)"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a pop -d "Start working on next task"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a p -d "Pop next task (alias)"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a done -d "Mark a task as done"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a d -d "Mark done (alias)"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a status -d "Show current task status"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a move -d "Move a task in the queue"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a mv -d "Move task (alias)"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a mt -d "Move task to top"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a mb -d "Move task to bottom"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a archive -d "Archive a task"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a ar -d "Archive task (alias)"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a purge -d "Purge archived tasks"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a edit -d "Edit a task"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a e -d "Edit task (alias)"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a show -d "Display full task info"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a s -d "Show task (alias)"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a completion -d "Generate shell completions"
 
-complete -c ch -n "__fish_seen_subcommand_from done move archive edit show" -a "(ch completion --list-ids 2>/dev/null)"
+complete -c ch -n "__fish_seen_subcommand_from done d move mv mt mb archive ar edit e show s" -a "(ch completion --list-ids 2>/dev/null)"
 `;
 }
 
