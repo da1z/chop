@@ -5,10 +5,10 @@
     {
       "id": "dbb53a1-1",
       "title": "Use nicer prompting from user. maybe use existing npm package for interactive prompt instead of requiring 1 or 2 input",
-      "status": "open",
+      "status": "done",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:00:32.878Z",
-      "updatedAt": "2026-01-06T20:03:35.784Z"
+      "updatedAt": "2026-01-06T20:17:57.867Z"
     },
     {
       "id": "7fee846-2",
@@ -16,7 +16,7 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:01:24.945Z",
-      "updatedAt": "2026-01-06T20:03:35.784Z"
+      "updatedAt": "2026-01-06T20:17:57.867Z"
     },
     {
       "id": "f5d007f-3",
@@ -24,7 +24,7 @@
       "status": "open",
       "dependsOn": [],
       "createdAt": "2026-01-06T20:03:35.784Z",
-      "updatedAt": "2026-01-06T20:03:35.784Z"
+      "updatedAt": "2026-01-06T20:17:57.867Z"
     }
   ]
 }

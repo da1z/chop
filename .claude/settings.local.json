@@ -3,7 +3,9 @@
     "allow": [
       "WebSearch",
       "Bash(bun run:*)",
-      "Bash(bun test:*)"
+      "Bash(bun test:*)",
+      "Bash(bunx tsc:*)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }
