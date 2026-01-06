@@ -33,7 +33,7 @@ export function parseTaskId(id: string): { hash: string; sequence: number } | nu
     return null;
   }
   return {
-    hash: match[1],
-    sequence: parseInt(match[2], 10),
+    hash: match[1]!,
+    sequence: parseInt(match[2]!, 10),
   };
 }

@@ -121,7 +121,7 @@ export class TaskStore {
         throw new Error(`Task ${taskId} not found`);
       }
 
-      const [task] = tasksData.tasks.splice(taskIndex, 1);
+      const task = tasksData.tasks.splice(taskIndex, 1)[0]!;
       task.status = "archived";
       task.updatedAt = new Date().toISOString();
 
