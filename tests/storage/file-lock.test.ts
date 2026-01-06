@@ -2,7 +2,8 @@ import { test, expect, describe, beforeEach, afterEach } from "bun:test";
 import { withLock } from "../../src/storage/file-lock.ts";
 import { tmpdir } from "os";
 import { join } from "path";
-import { existsSync, unlinkSync } from "node:fs";
+import { existsSync, unlinkSync, writeFileSync } from "node:fs";
+import { LockError } from "../../src/errors.ts";
 
 describe("withLock", () => {
   const testLockPath = join(tmpdir(), `chop-test-${Date.now()}.lock`);
@@ -84,5 +85,68 @@ describe("withLock", () => {
     expect(results[0]).toBe(1);
     expect(results[1]).toBe(2);
     expect(results[2]).toBe(3);
+  });
+
+  test("removes stale lock and acquires new lock", async () => {
+    // Create a stale lock file (timestamp from 2 minutes ago)
+    const staleLockInfo = {
+      pid: 99999,
+      timestamp: Date.now() - 120_000, // 2 minutes ago
+    };
+    writeFileSync(testLockPath, JSON.stringify(staleLockInfo));
+
+    let executed = false;
+
+    // Should detect stale lock, remove it, and acquire
+    await withLock(testLockPath, async () => {
+      executed = true;
+      expect(existsSync(testLockPath)).toBe(true);
+    });
+
+    expect(executed).toBe(true);
+    expect(existsSync(testLockPath)).toBe(false);
+  });
+
+  test("handles invalid lock file content as stale", async () => {
+    // Create a lock file with invalid JSON
+    writeFileSync(testLockPath, "invalid json content");
+
+    let executed = false;
+
+    // Should treat unparseable lock as stale and acquire
+    await withLock(testLockPath, async () => {
+      executed = true;
+    });
+
+    expect(executed).toBe(true);
+  });
+
+  test("throws LockError when lock cannot be acquired after retries", async () => {
+    // Create a fresh (non-stale) lock file that won't be removed
+    const freshLockInfo = {
+      pid: process.pid,
+      timestamp: Date.now(),
+    };
+    writeFileSync(testLockPath, JSON.stringify(freshLockInfo));
+
+    // Mock by making the lock file appear fresh every time by keeping it updated
+    const intervalId = setInterval(() => {
+      try {
+        writeFileSync(testLockPath, JSON.stringify({
+          pid: process.pid,
+          timestamp: Date.now(),
+        }));
+      } catch {
+        // Lock might be removed, ignore
+      }
+    }, 50);
+
+    try {
+      await expect(withLock(testLockPath, async () => {
+        return "should not execute";
+      })).rejects.toThrow(LockError);
+    } finally {
+      clearInterval(intervalId);
+    }
   });
 });
