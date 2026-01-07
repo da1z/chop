@@ -153,12 +153,12 @@
       "id": "dd4803d-21",
       "title": "Update isValidStatus() in src/models/task.ts to include 'draft'",
       "description": "Add 'draft' to the valid status array in isValidStatus function",
-      "status": "open",
+      "status": "done",
       "dependsOn": [
         "25d65d5-20"
       ],
       "createdAt": "2026-01-07T02:19:11.067Z",
-      "updatedAt": "2026-01-07T02:19:11.067Z"
+      "updatedAt": "2026-01-07T02:26:31.006Z"
     },
     {
       "id": "5865e81-22",

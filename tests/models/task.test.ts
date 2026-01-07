@@ -129,6 +129,7 @@ describe("findTaskById", () => {
 
 describe("isValidStatus", () => {
   test("returns true for valid statuses", () => {
+    expect(isValidStatus("draft")).toBe(true);
     expect(isValidStatus("open")).toBe(true);
     expect(isValidStatus("in-progress")).toBe(true);
     expect(isValidStatus("done")).toBe(true);

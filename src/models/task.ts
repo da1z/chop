@@ -83,7 +83,7 @@ export function findTaskById(id: string, tasks: Task[]): Task | undefined {
 
 // Validate a status string
 export function isValidStatus(status: string): status is TaskStatus {
-  return ["open", "in-progress", "done", "archived"].includes(status);
+  return ["draft", "open", "in-progress", "done", "archived"].includes(status);
 }
 
 // Get the first available (open, unblocked) task
