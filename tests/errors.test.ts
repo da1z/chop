@@ -58,7 +58,7 @@ describe("LockError", () => {
 describe("InvalidStatusError", () => {
   test("creates error with status in message", () => {
     const error = new InvalidStatusError("invalid-status");
-    expect(error.message).toBe("Error: Invalid status: invalid-status. Use: open, in-progress, or done");
+    expect(error.message).toBe("Error: Invalid status: invalid-status. Use: draft, open, in-progress, or done");
     expect(error.name).toBe("ChopError");
   });
 });
