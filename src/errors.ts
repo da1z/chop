@@ -37,7 +37,7 @@ export class LockError extends ChopError {
 // Invalid task status
 export class InvalidStatusError extends ChopError {
   constructor(status: string) {
-    super(`Invalid status: ${status}. Use: open, in-progress, or done`);
+    super(`Invalid status: ${status}. Use: draft, open, in-progress, or done`);
   }
 }
 
