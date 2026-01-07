@@ -207,10 +207,10 @@
     {
       "id": "be3614d-19",
       "title": "add gh workflow to build, test and publish to npm using bun https://bun.com/docs/pm/cli/publish . the workflow should create pr with version bump after publish succesful",
-      "status": "open",
+      "status": "draft",
       "dependsOn": [],
       "createdAt": "2026-01-06T21:57:57.026Z",
-      "updatedAt": "2026-01-07T02:20:09.986Z"
+      "updatedAt": "2026-01-07T02:43:07.571Z"
     }
   ]
 }
