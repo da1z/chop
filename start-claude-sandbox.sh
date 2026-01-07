@@ -1,0 +1,1 @@
+docker sandbox run --template chop-dev-env claude
