@@ -1,0 +1,1 @@
+docker build -t chop-dev-env -f Dockerfile.dev-sandbox .
