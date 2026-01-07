@@ -8,7 +8,7 @@ export function registerListCommand(program: Command): void {
     .command("list")
     .alias("ls")
     .description("List tasks")
-    .option("-o, --open", "Show only open tasks (default)")
+    .option("-o, --open", "Show only open and draft tasks (default)")
     .option("-p, --progress", "Show only in-progress tasks")
     .option("--done", "Show only done tasks")
     .option("-a, --all", "Show all non-archived tasks")
@@ -29,8 +29,10 @@ export function registerListCommand(program: Command): void {
           // Only done
           filteredTasks = data.tasks.filter((t) => t.status === "done");
         } else {
-          // Default: only open
-          filteredTasks = data.tasks.filter((t) => t.status === "open");
+          // Default: open and draft
+          filteredTasks = data.tasks.filter(
+            (t) => t.status === "open" || t.status === "draft"
+          );
         }
 
         console.log(formatTaskTable(filteredTasks, data.tasks));

@@ -175,12 +175,12 @@
       "id": "20b04c8-23",
       "title": "Include draft tasks in default ls view in src/commands/list.ts",
       "description": "Update default filter to show both 'open' and 'draft' tasks",
-      "status": "open",
+      "status": "done",
       "dependsOn": [
         "25d65d5-20"
       ],
       "createdAt": "2026-01-07T02:19:13.532Z",
-      "updatedAt": "2026-01-07T02:19:13.532Z"
+      "updatedAt": "2026-01-07T02:30:10.058Z"
     },
     {
       "id": "a7e10c3-24",
