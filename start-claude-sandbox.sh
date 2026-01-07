@@ -1,1 +1,1 @@
-docker sandbox run --template chop-dev-env claude
+docker sandbox run -v ~/.local/share/chop:/home/agent/.local/share/chop --template chop-dev-env claude
