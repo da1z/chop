@@ -5,6 +5,7 @@ import type { Task } from "../types.ts";
 const colors = {
 	reset: "\x1b[0m",
 	dim: "\x1b[2m",
+	red: "\x1b[31m",
 	green: "\x1b[32m",
 	yellow: "\x1b[33m",
 	blue: "\x1b[34m",
@@ -133,7 +134,7 @@ export function formatTaskDetail(task: Task, allTasks?: Task[]): string {
 	}
 
 	if (allTasks && task.status === "open" && isBlocked(task, allTasks)) {
-		lines.push(`${colors.yellow}Status: BLOCKED${colors.reset}`);
+		lines.push(`${colors.yellow}⚠ Blocked by dependencies${colors.reset}`);
 	}
 
 	return lines.join("\n");
@@ -141,10 +142,20 @@ export function formatTaskDetail(task: Task, allTasks?: Task[]): string {
 
 // Format success message
 export function success(message: string): string {
-	return `${colors.green}${message}${colors.reset}`;
+	return `${colors.green}✓${colors.reset} ${message}`;
+}
+
+// Format warning message
+export function warning(message: string): string {
+	return `${colors.yellow}⚠${colors.reset} ${message}`;
+}
+
+// Format info message
+export function info(message: string): string {
+	return `${colors.cyan}ℹ${colors.reset} ${message}`;
 }
 
 // Format error message
 export function error(message: string): string {
-	return message; // Errors go to stderr, keep simple
+	return `${colors.red}✗${colors.reset} ${message}`;
 }

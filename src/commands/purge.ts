@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { TaskStore } from "../storage/task-store.ts";
+import { error, info, success } from "../utils/display.ts";
 import { confirm } from "../utils/prompts.ts";
 
 interface PurgeOptions {
@@ -17,11 +18,11 @@ export function registerPurgeCommand(program: Command): void {
 				const archivedData = await store.readArchivedTasks();
 
 				if (archivedData.tasks.length === 0) {
-					console.log("No archived tasks to purge.");
+					console.log(info("No archived tasks to purge"));
 					return;
 				}
 
-				console.log(`Found ${archivedData.tasks.length} archived task(s).`);
+				console.log(info(`Found ${archivedData.tasks.length} archived task(s)`));
 
 				let confirmed: boolean;
 				if (options.yes) {
@@ -34,17 +35,17 @@ export function registerPurgeCommand(program: Command): void {
 				}
 
 				if (!confirmed) {
-					console.log("Purge cancelled.");
+					console.log(info("Purge cancelled"));
 					return;
 				}
 
 				const count = await store.purgeArchived();
-				console.log(`Purged ${count} archived task(s).`);
-			} catch (error) {
-				if (error instanceof Error) {
-					console.error(error.message);
+				console.log(success(`Purged ${count} archived task(s)`));
+			} catch (err) {
+				if (err instanceof Error) {
+					console.error(error(err.message));
 				} else {
-					console.error("An unexpected error occurred");
+					console.error(error("An unexpected error occurred"));
 				}
 				process.exit(1);
 			}

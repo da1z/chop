@@ -2,6 +2,7 @@ import type { Command } from "commander";
 import { TaskNotFoundError } from "../errors.ts";
 import { findAllDependents, findTaskById } from "../models/task.ts";
 import { TaskStore } from "../storage/task-store.ts";
+import { error, info, success, warning } from "../utils/display.ts";
 import { confirm } from "../utils/prompts.ts";
 
 interface ArchiveOptions {
@@ -33,7 +34,7 @@ export function registerArchiveCommand(program: Command): void {
 
 				if (unarchivedDependents.length > 0) {
 					// Show warning about dependents
-					console.log(`Warning: The following tasks depend on ${task.id}:`);
+					console.log(warning(`The following tasks depend on ${task.id}:`));
 					for (const dep of unarchivedDependents) {
 						console.log(`  - ${dep.id}: ${dep.title}`);
 					}
@@ -49,7 +50,7 @@ export function registerArchiveCommand(program: Command): void {
 					}
 
 					if (!confirmed) {
-						console.log("Archive cancelled.");
+						console.log(info("Archive cancelled"));
 						return;
 					}
 
@@ -59,7 +60,7 @@ export function registerArchiveCommand(program: Command): void {
 						await store.archiveTask(t.id);
 					}
 
-					console.log(`Archived ${tasksToArchive.length} task(s)`);
+					console.log(success(`Archived ${tasksToArchive.length} task(s)`));
 				} else {
 					let confirmed: boolean;
 					if (options.yes) {
@@ -70,18 +71,18 @@ export function registerArchiveCommand(program: Command): void {
 					}
 
 					if (!confirmed) {
-						console.log("Archive cancelled.");
+						console.log(info("Archive cancelled"));
 						return;
 					}
 
 					await store.archiveTask(task.id);
-					console.log(`Archived task ${task.id}`);
+					console.log(success(`Archived task ${task.id}`));
 				}
-			} catch (error) {
-				if (error instanceof Error) {
-					console.error(error.message);
+			} catch (err) {
+				if (err instanceof Error) {
+					console.error(error(err.message));
 				} else {
-					console.error("An unexpected error occurred");
+					console.error(error("An unexpected error occurred"));
 				}
 				process.exit(1);
 			}

@@ -2,6 +2,7 @@ import type { Command } from "commander";
 import { ChopError, TaskNotFoundError } from "../errors.ts";
 import { findTaskById } from "../models/task.ts";
 import { TaskStore } from "../storage/task-store.ts";
+import { error, success } from "../utils/display.ts";
 
 async function moveTask(id: string, position: "top" | "bottom"): Promise<void> {
 	const store = await TaskStore.create();
@@ -29,7 +30,7 @@ async function moveTask(id: string, position: "top" | "bottom"): Promise<void> {
 		return { data, result: task };
 	});
 
-	console.log(`Moved task ${id} to ${position}`);
+	console.log(success(`Moved task ${id} to ${position}`));
 }
 
 export function registerMoveCommand(program: Command): void {
@@ -46,11 +47,11 @@ export function registerMoveCommand(program: Command): void {
 				}
 
 				await moveTask(id, options.top ? "top" : "bottom");
-			} catch (error) {
-				if (error instanceof Error) {
-					console.error(error.message);
+			} catch (err) {
+				if (err instanceof Error) {
+					console.error(error(err.message));
 				} else {
-					console.error("An unexpected error occurred");
+					console.error(error("An unexpected error occurred"));
 				}
 				process.exit(1);
 			}
@@ -63,11 +64,11 @@ export function registerMoveCommand(program: Command): void {
 		.action(async (id: string) => {
 			try {
 				await moveTask(id, "top");
-			} catch (error) {
-				if (error instanceof Error) {
-					console.error(error.message);
+			} catch (err) {
+				if (err instanceof Error) {
+					console.error(error(err.message));
 				} else {
-					console.error("An unexpected error occurred");
+					console.error(error("An unexpected error occurred"));
 				}
 				process.exit(1);
 			}
@@ -80,11 +81,11 @@ export function registerMoveCommand(program: Command): void {
 		.action(async (id: string) => {
 			try {
 				await moveTask(id, "bottom");
-			} catch (error) {
-				if (error instanceof Error) {
-					console.error(error.message);
+			} catch (err) {
+				if (err instanceof Error) {
+					console.error(error(err.message));
 				} else {
-					console.error("An unexpected error occurred");
+					console.error(error("An unexpected error occurred"));
 				}
 				process.exit(1);
 			}

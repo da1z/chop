@@ -2,6 +2,7 @@ import type { Command } from "commander";
 import { TaskNotFoundError } from "../errors.ts";
 import { findTaskById } from "../models/task.ts";
 import { TaskStore } from "../storage/task-store.ts";
+import { error, success } from "../utils/display.ts";
 
 export function registerDoneCommand(program: Command): void {
 	program
@@ -25,12 +26,12 @@ export function registerDoneCommand(program: Command): void {
 					return { data, result: task };
 				});
 
-				console.log(`Marked task ${id} as done`);
-			} catch (error) {
-				if (error instanceof Error) {
-					console.error(error.message);
+				console.log(success(`Marked task ${id} as done`));
+			} catch (err) {
+				if (err instanceof Error) {
+					console.error(error(err.message));
 				} else {
-					console.error("An unexpected error occurred");
+					console.error(error("An unexpected error occurred"));
 				}
 				process.exit(1);
 			}

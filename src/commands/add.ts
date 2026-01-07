@@ -2,7 +2,7 @@ import type { Command } from "commander";
 import { CircularDependencyError } from "../errors.ts";
 import { createTask, detectCircularDependency } from "../models/task.ts";
 import { TaskStore } from "../storage/task-store.ts";
-import { formatTaskDetail } from "../utils/display.ts";
+import { error, formatTaskDetail, success } from "../utils/display.ts";
 import { selectTasks } from "../utils/prompts.ts";
 
 // Collect multiple --depends-on values
@@ -79,13 +79,13 @@ export function registerAddCommand(program: Command): void {
 					return { data, result: task };
 				});
 
-				console.log(`Added task: ${newTask.id}`);
+				console.log(success(`Added task: ${newTask.id}`));
 				console.log(formatTaskDetail(newTask));
-			} catch (error) {
-				if (error instanceof Error) {
-					console.error(error.message);
+			} catch (err) {
+				if (err instanceof Error) {
+					console.error(error(err.message));
 				} else {
-					console.error("An unexpected error occurred");
+					console.error(error("An unexpected error occurred"));
 				}
 				process.exit(1);
 			}

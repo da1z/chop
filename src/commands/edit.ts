@@ -1,7 +1,7 @@
+import { unlinkSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { Command } from "commander";
-import { unlinkSync } from "node:fs";
 import {
   ChopError,
   CircularDependencyError,

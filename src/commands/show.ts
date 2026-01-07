@@ -2,7 +2,7 @@ import type { Command } from "commander";
 import { TaskNotFoundError } from "../errors.ts";
 import { findTaskById } from "../models/task.ts";
 import { TaskStore } from "../storage/task-store.ts";
-import { formatTaskDetail } from "../utils/display.ts";
+import { error, formatTaskDetail } from "../utils/display.ts";
 
 export function registerShowCommand(program: Command): void {
 	program
@@ -20,11 +20,11 @@ export function registerShowCommand(program: Command): void {
 				}
 
 				console.log(formatTaskDetail(task, tasksData.tasks));
-			} catch (error) {
-				if (error instanceof Error) {
-					console.error(error.message);
+			} catch (err) {
+				if (err instanceof Error) {
+					console.error(error(err.message));
 				} else {
-					console.error("An unexpected error occurred");
+					console.error(error("An unexpected error occurred"));
 				}
 				process.exit(1);
 			}

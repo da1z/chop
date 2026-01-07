@@ -3,6 +3,7 @@ import { AlreadyInitializedError, ChopError } from "../errors.ts";
 import { isInitialized } from "../storage/storage-resolver.ts";
 import { TaskStore } from "../storage/task-store.ts";
 import type { StorageLocation } from "../types.ts";
+import { error, info, success } from "../utils/display.ts";
 import { getGitRepoRoot } from "../utils/git.ts";
 import { confirm, select } from "../utils/prompts.ts";
 
@@ -35,7 +36,7 @@ export function registerInitCommand(program: Command): void {
         // Warn if gitignore flags are used with global storage
         if (options.global && options.gitignore !== undefined) {
           console.log(
-            "Note: --gitignore/--no-gitignore has no effect with global storage"
+            info("--gitignore/--no-gitignore has no effect with global storage")
           );
         }
 
@@ -92,17 +93,17 @@ export function registerInitCommand(program: Command): void {
                 content + (content.endsWith("\n") ? "" : "\n")
               }.chop/\n`;
               await Bun.write(gitignorePath, newContent);
-              console.log("Added .chop/ to .gitignore");
+              console.log(success("Added .chop/ to .gitignore"));
             }
           }
         }
 
-        console.log(`Initialized chop with ${location} storage.`);
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(error.message);
+        console.log(success(`Initialized chop with ${location} storage`));
+      } catch (err) {
+        if (err instanceof Error) {
+          console.error(error(err.message));
         } else {
-          console.error("An unexpected error occurred");
+          console.error(error("An unexpected error occurred"));
         }
         process.exit(1);
       }
