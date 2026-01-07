@@ -7,7 +7,7 @@ import type { TaskStatus } from "../types.ts";
 export function registerStatusCommand(program: Command): void {
   program
     .command("status <id> <status>")
-    .description("Change task status (open, in-progress, done)")
+    .description("Change task status (draft, open, in-progress, done)")
     .action(async (id: string, status: string) => {
       try {
         // Validate status

@@ -197,12 +197,12 @@
       "id": "7c5aabd-25",
       "title": "Update status command description in src/commands/status.ts",
       "description": "Change description to mention 'draft' as valid status option",
-      "status": "open",
+      "status": "done",
       "dependsOn": [
         "25d65d5-20"
       ],
       "createdAt": "2026-01-07T02:19:15.626Z",
-      "updatedAt": "2026-01-07T02:19:15.626Z"
+      "updatedAt": "2026-01-07T02:35:03.101Z"
     },
     {
       "id": "be3614d-19",
