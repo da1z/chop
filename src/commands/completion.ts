@@ -3,7 +3,7 @@ import { TaskStore } from "../storage/task-store.ts";
 
 // Generate bash completion script
 function generateBashCompletion(): string {
-  return `# Bash completion for chop
+	return `# Bash completion for chop
 # Add this to your ~/.bashrc or ~/.bash_profile:
 # eval "$(chop completion bash)"
 # or: eval "$(ch completion bash)"
@@ -49,7 +49,7 @@ complete -F _chop_completions ch
 
 // Generate zsh completion script
 function generateZshCompletion(): string {
-  return `#compdef chop ch
+	return `#compdef chop ch
 # Zsh completion for chop
 # Add this to your ~/.zshrc:
 # eval "$(chop completion zsh)"
@@ -109,7 +109,7 @@ compdef _chop ch
 
 // Generate fish completion script
 function generateFishCompletion(): string {
-  return `# Fish completion for chop
+	return `# Fish completion for chop
 # Add this to your ~/.config/fish/completions/chop.fish:
 # chop completion fish > ~/.config/fish/completions/chop.fish
 # or: ch completion fish > ~/.config/fish/completions/ch.fish
@@ -178,55 +178,57 @@ complete -c ch -n "__fish_seen_subcommand_from done d move mv mt mb archive ar e
 
 // Get list of task IDs for completion
 async function getTaskIds(): Promise<string[]> {
-  try {
-    const store = await TaskStore.create();
-    const data = await store.readTasks();
-    return data.tasks.map((task) => task.id);
-  } catch {
-    // Return empty array if we can't read tasks (e.g., not initialized)
-    return [];
-  }
+	try {
+		const store = await TaskStore.create();
+		const data = await store.readTasks();
+		return data.tasks.map((task) => task.id);
+	} catch {
+		// Return empty array if we can't read tasks (e.g., not initialized)
+		return [];
+	}
 }
 
 export function registerCompletionCommand(program: Command): void {
-  program
-    .command("completion [shell]")
-    .description("Generate shell completion script")
-    .option("--list-ids", "List task IDs (internal use)")
-    .action(async (shell: string | undefined, options: { listIds?: boolean }) => {
-      // Internal option for listing task IDs during completion
-      if (options.listIds) {
-        const ids = await getTaskIds();
-        console.log(ids.join("\n"));
-        return;
-      }
+	program
+		.command("completion [shell]")
+		.description("Generate shell completion script")
+		.option("--list-ids", "List task IDs (internal use)")
+		.action(
+			async (shell: string | undefined, options: { listIds?: boolean }) => {
+				// Internal option for listing task IDs during completion
+				if (options.listIds) {
+					const ids = await getTaskIds();
+					console.log(ids.join("\n"));
+					return;
+				}
 
-      // Determine shell type
-      const targetShell = shell || detectShell();
+				// Determine shell type
+				const targetShell = shell || detectShell();
 
-      switch (targetShell) {
-        case "bash":
-          console.log(generateBashCompletion());
-          break;
-        case "zsh":
-          console.log(generateZshCompletion());
-          break;
-        case "fish":
-          console.log(generateFishCompletion());
-          break;
-        default:
-          console.error(`Unknown shell: ${targetShell}`);
-          console.error("Supported shells: bash, zsh, fish");
-          process.exit(1);
-      }
-    });
+				switch (targetShell) {
+					case "bash":
+						console.log(generateBashCompletion());
+						break;
+					case "zsh":
+						console.log(generateZshCompletion());
+						break;
+					case "fish":
+						console.log(generateFishCompletion());
+						break;
+					default:
+						console.error(`Unknown shell: ${targetShell}`);
+						console.error("Supported shells: bash, zsh, fish");
+						process.exit(1);
+				}
+			},
+		);
 }
 
 // Detect current shell from environment
 function detectShell(): string {
-  const shell = process.env.SHELL || "";
-  if (shell.includes("zsh")) return "zsh";
-  if (shell.includes("fish")) return "fish";
-  if (shell.includes("bash")) return "bash";
-  return "bash"; // Default to bash
+	const shell = process.env.SHELL || "";
+	if (shell.includes("zsh")) return "zsh";
+	if (shell.includes("fish")) return "fish";
+	if (shell.includes("bash")) return "bash";
+	return "bash"; // Default to bash
 }

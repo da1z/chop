@@ -1,12 +1,22 @@
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import type { Command } from "commander";
-import { tmpdir } from "os";
-import { join } from "path";
 import { unlinkSync } from "node:fs";
+import {
+  ChopError,
+  CircularDependencyError,
+  InvalidStatusError,
+  NonInteractiveError,
+  TaskNotFoundError,
+} from "../errors.ts";
+import {
+  detectCircularDependency,
+  findTaskById,
+  isValidStatus,
+} from "../models/task.ts";
 import { TaskStore } from "../storage/task-store.ts";
-import { findTaskById, isValidStatus, detectCircularDependency } from "../models/task.ts";
-import { TaskNotFoundError, ChopError, InvalidStatusError, CircularDependencyError, NonInteractiveError } from "../errors.ts";
+import type { Task, TaskEditData, TaskStatus } from "../types.ts";
 import { isInteractive } from "../utils/prompts.ts";
-import type { Task, TaskStatus, TaskEditData } from "../types.ts";
 
 // Convert a task to YAML-like format for editing
 function taskToYaml(task: Task): string {
@@ -34,7 +44,7 @@ function taskToYaml(task: Task): string {
     lines.push("depends_on:");
   }
 
-  return lines.join("\n") + "\n";
+  return `${lines.join("\n")}\n`;
 }
 
 // Parse YAML-like format back to task edit data
@@ -93,7 +103,10 @@ function yamlToTaskEdit(content: string): TaskEditData {
   // Set description if we collected any lines
   if (descriptionLines.length > 0) {
     // Trim trailing empty lines
-    while (descriptionLines.length > 0 && descriptionLines[descriptionLines.length - 1] === "") {
+    while (
+      descriptionLines.length > 0 &&
+      descriptionLines[descriptionLines.length - 1] === ""
+    ) {
       descriptionLines.pop();
     }
     result.description = descriptionLines.join("\n");
@@ -212,7 +225,11 @@ export function registerEditCommand(program: Command): void {
           }
 
           // Check for circular dependencies before updating
-          const cyclePath = detectCircularDependency(task.id, editData.depends_on, data.tasks);
+          const cyclePath = detectCircularDependency(
+            task.id,
+            editData.depends_on,
+            data.tasks
+          );
           if (cyclePath) {
             throw new CircularDependencyError(cyclePath);
           }

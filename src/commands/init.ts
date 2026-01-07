@@ -88,8 +88,9 @@ export function registerInitCommand(program: Command): void {
 
             // Check if .chop is already in gitignore
             if (!content.includes(".chop")) {
-              const newContent =
-                content + (content.endsWith("\n") ? "" : "\n") + ".chop/\n";
+              const newContent = `${
+                content + (content.endsWith("\n") ? "" : "\n")
+              }.chop/\n`;
               await Bun.write(gitignorePath, newContent);
               console.log("Added .chop/ to .gitignore");
             }
