@@ -164,12 +164,12 @@
       "id": "5865e81-22",
       "title": "Add display style for 'draft' in src/utils/display.ts",
       "description": "Add draft entry to statusStyles object with appropriate color (dim or cyan)",
-      "status": "open",
+      "status": "done",
       "dependsOn": [
         "25d65d5-20"
       ],
       "createdAt": "2026-01-07T02:19:12.251Z",
-      "updatedAt": "2026-01-07T02:19:12.251Z"
+      "updatedAt": "2026-01-07T02:28:07.536Z"
     },
     {
       "id": "20b04c8-23",

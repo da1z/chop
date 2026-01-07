@@ -13,6 +13,7 @@ const colors = {
 
 // Status display styles
 const statusStyles: Record<string, { text: string; color: string }> = {
+  draft: { text: "draft", color: colors.cyan },
   open: { text: "open", color: colors.blue },
   "in-progress": { text: "in-progress", color: colors.yellow },
   done: { text: "done", color: colors.green },
