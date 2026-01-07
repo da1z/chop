@@ -61,3 +61,10 @@ export class CircularDependencyError extends ChopError {
     super(`Circular dependency detected: ${cyclePath.join(" → ")}`);
   }
 }
+
+// Non-interactive terminal requires explicit options
+export class NonInteractiveError extends ChopError {
+  constructor(message: string) {
+    super(message);
+  }
+}

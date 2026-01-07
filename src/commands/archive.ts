@@ -4,12 +4,17 @@ import { findTaskById, findAllDependents } from "../models/task.ts";
 import { TaskNotFoundError } from "../errors.ts";
 import { confirm } from "../utils/prompts.ts";
 
+interface ArchiveOptions {
+  yes?: boolean;
+}
+
 export function registerArchiveCommand(program: Command): void {
   program
     .command("archive <id>")
     .alias("ar")
     .description("Archive a task")
-    .action(async (id: string) => {
+    .option("-y, --yes", "Skip confirmation prompt")
+    .action(async (id: string, options: ArchiveOptions) => {
       try {
         const store = await TaskStore.create();
         const data = await store.readTasks();
@@ -31,10 +36,15 @@ export function registerArchiveCommand(program: Command): void {
             console.log(`  - ${dep.id}: ${dep.title}`);
           }
 
-          const confirmed = await confirm(
-            "Archive this task and all its dependents?",
-            false
-          );
+          let confirmed: boolean;
+          if (options.yes) {
+            confirmed = true;
+          } else {
+            confirmed = await confirm(
+              "Archive this task and all its dependents?",
+              false
+            );
+          }
 
           if (!confirmed) {
             console.log("Archive cancelled.");
@@ -49,8 +59,13 @@ export function registerArchiveCommand(program: Command): void {
 
           console.log(`Archived ${tasksToArchive.length} task(s)`);
         } else {
-          // Confirm archiving single task
-          const confirmed = await confirm(`Archive task ${task.id}?`, true);
+          let confirmed: boolean;
+          if (options.yes) {
+            confirmed = true;
+          } else {
+            // Confirm archiving single task
+            confirmed = await confirm(`Archive task ${task.id}?`, true);
+          }
 
           if (!confirmed) {
             console.log("Archive cancelled.");

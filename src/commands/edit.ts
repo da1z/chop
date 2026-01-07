@@ -4,7 +4,8 @@ import { join } from "path";
 import { unlinkSync } from "node:fs";
 import { TaskStore } from "../storage/task-store.ts";
 import { findTaskById, isValidStatus, detectCircularDependency } from "../models/task.ts";
-import { TaskNotFoundError, ChopError, InvalidStatusError, CircularDependencyError } from "../errors.ts";
+import { TaskNotFoundError, ChopError, InvalidStatusError, CircularDependencyError, NonInteractiveError } from "../errors.ts";
+import { isInteractive } from "../utils/prompts.ts";
 import type { Task, TaskStatus, TaskEditData } from "../types.ts";
 
 // Convert a task to YAML-like format for editing
@@ -146,6 +147,13 @@ export function registerEditCommand(program: Command): void {
         }
 
         // Editor mode: open task in external editor
+        // Requires interactive terminal
+        if (!isInteractive()) {
+          throw new NonInteractiveError(
+            "Cannot open editor in non-interactive mode. Use --title or --desc flags instead."
+          );
+        }
+
         const data = await store.readTasks();
 
         // Find the task

@@ -1,7 +1,23 @@
 import prompts from "prompts";
+import { NonInteractiveError } from "../errors.ts";
+
+// Check if running in an interactive terminal
+export function isInteractive(): boolean {
+  return Boolean(process.stdin.isTTY);
+}
+
+// Helper to ensure we're in interactive mode before prompting
+function requireInteractive(action: string): void {
+  if (!isInteractive()) {
+    throw new NonInteractiveError(
+      `Cannot ${action} in non-interactive mode. Use command-line flags instead.`
+    );
+  }
+}
 
 // Prompt for a yes/no confirmation
 export async function confirm(message: string, defaultYes = false): Promise<boolean> {
+  requireInteractive("prompt for confirmation");
   const response = await prompts({
     type: "confirm",
     name: "value",
@@ -19,6 +35,7 @@ export async function confirm(message: string, defaultYes = false): Promise<bool
 
 // Prompt for text input
 export async function prompt(message: string, defaultValue?: string): Promise<string> {
+  requireInteractive("prompt for input");
   const response = await prompts({
     type: "text",
     name: "value",
@@ -39,6 +56,7 @@ export async function select<T extends string>(
   message: string,
   options: { value: T; label: string }[]
 ): Promise<T> {
+  requireInteractive("select from options");
   const response = await prompts({
     type: "select",
     name: "value",
@@ -62,6 +80,8 @@ export async function selectTasks(
   message: string,
   tasks: { id: string; title: string }[]
 ): Promise<string[]> {
+  requireInteractive("select tasks");
+
   if (tasks.length === 0) {
     console.log("No tasks available to select.");
     return [];
