@@ -38,15 +38,15 @@ jobs:
       - name: Run tests
         run: bun test
 
-      - name: Build
-        run: bun run build
-
       - name: Bump version
         id: version
         run: |
           bun pm version ${{ inputs.version_type }} --no-git-tag-version
           NEW_VERSION=$(jq -r '.version' package.json)
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Build
+        run: bun run build
 
       - name: Publish to npm
         run: bun publish --access public
