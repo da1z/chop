@@ -8,6 +8,7 @@ import {
   InvalidStatusError,
   HasDependentsError,
   AlreadyInitializedError,
+  CircularDependencyError,
 } from "../src/errors.ts";
 
 describe("ChopError", () => {
@@ -81,6 +82,20 @@ describe("AlreadyInitializedError", () => {
   test("creates error with correct message", () => {
     const error = new AlreadyInitializedError();
     expect(error.message).toBe("Error: Project already initialized");
+    expect(error.name).toBe("ChopError");
+  });
+});
+
+describe("CircularDependencyError", () => {
+  test("creates error with cycle path in message", () => {
+    const error = new CircularDependencyError(["task-a", "task-b", "task-a"]);
+    expect(error.message).toBe("Error: Circular dependency detected: task-a → task-b → task-a");
+    expect(error.name).toBe("ChopError");
+  });
+
+  test("creates error with longer cycle path", () => {
+    const error = new CircularDependencyError(["task-a", "task-b", "task-c", "task-a"]);
+    expect(error.message).toBe("Error: Circular dependency detected: task-a → task-b → task-c → task-a");
     expect(error.name).toBe("ChopError");
   });
 });

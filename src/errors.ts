@@ -54,3 +54,10 @@ export class AlreadyInitializedError extends ChopError {
     super("Project already initialized");
   }
 }
+
+// Circular dependency detected
+export class CircularDependencyError extends ChopError {
+  constructor(cyclePath: string[]) {
+    super(`Circular dependency detected: ${cyclePath.join(" → ")}`);
+  }
+}

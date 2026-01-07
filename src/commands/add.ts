@@ -1,8 +1,9 @@
 import type { Command } from "commander";
 import { TaskStore } from "../storage/task-store.ts";
-import { createTask } from "../models/task.ts";
+import { createTask, detectCircularDependency } from "../models/task.ts";
 import { selectTasks } from "../utils/prompts.ts";
 import { formatTaskDetail } from "../utils/display.ts";
+import { CircularDependencyError } from "../errors.ts";
 
 // Collect multiple --depends-on values
 function collectDependencies(value: string, previous: string[]): string[] {
@@ -48,6 +49,12 @@ export function registerAddCommand(program: Command): void {
             dependsOn,
             status: options.draft ? "draft" : "open",
           });
+
+          // Check for circular dependencies before adding
+          const cyclePath = detectCircularDependency(task.id, dependsOn, data.tasks);
+          if (cyclePath) {
+            throw new CircularDependencyError(cyclePath);
+          }
 
           if (options.top) {
             data.tasks.unshift(task);

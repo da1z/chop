@@ -3,8 +3,8 @@ import { tmpdir } from "os";
 import { join } from "path";
 import { unlinkSync } from "node:fs";
 import { TaskStore } from "../storage/task-store.ts";
-import { findTaskById, isValidStatus } from "../models/task.ts";
-import { TaskNotFoundError, ChopError, InvalidStatusError } from "../errors.ts";
+import { findTaskById, isValidStatus, detectCircularDependency } from "../models/task.ts";
+import { TaskNotFoundError, ChopError, InvalidStatusError, CircularDependencyError } from "../errors.ts";
 import type { Task, TaskStatus, TaskEditData } from "../types.ts";
 
 // Convert a task to YAML-like format for editing
@@ -201,6 +201,12 @@ export function registerEditCommand(program: Command): void {
           const task = findTaskById(id, data.tasks);
           if (!task) {
             throw new TaskNotFoundError(id);
+          }
+
+          // Check for circular dependencies before updating
+          const cyclePath = detectCircularDependency(task.id, editData.depends_on, data.tasks);
+          if (cyclePath) {
+            throw new CircularDependencyError(cyclePath);
           }
 
           task.title = editData.title;
