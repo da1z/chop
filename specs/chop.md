@@ -15,7 +15,7 @@ Each task contains:
 - **ID**: Hybrid format - short hash (7 chars) + sequential number (e.g., `a1b2c3d-1`)
 - **Title**: Short description (required)
 - **Description**: Optional longer details
-- **Status**: `open` | `in-progress` | `done` | `archived`
+- **Status**: `draft` | `open` | `in-progress` | `done` | `archived`
 - **Dependencies**: List of task IDs this task depends on
 - **Created**: Timestamp of creation
 - **Updated**: Timestamp of last modification
