@@ -1,111 +1,44 @@
----
-description: Use Bun instead of Node.js, npm, pnpm, or vite.
-globs: "*.ts, *.tsx, *.html, *.css, *.js, *.jsx, package.json"
-alwaysApply: false
----
+# CLAUDE.md
 
-Default to using Bun instead of Node.js.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-- Use `bun <file>` instead of `node <file>` or `ts-node <file>`
-- Use `bun test` instead of `jest` or `vitest`
-- Use `bun build <file.html|file.ts|file.css>` instead of `webpack` or `esbuild`
-- Use `bun install` instead of `npm install` or `yarn install` or `pnpm install`
-- Use `bun run <script>` instead of `npm run <script>` or `yarn run <script>` or `pnpm run <script>`
-- Use `bunx <package> <command>` instead of `npx <package> <command>`
-- Bun automatically loads .env, so don't use dotenv.
+## Project Overview
 
-## APIs
+**chop** is a queue-based task management CLI for developers. It stores tasks per git repository with support for both local (`.chop/`) and global (`~/.local/share/chop/`) storage. Tasks support dependencies and statuses: `draft`, `open`, `in-progress`, `done`, `archived`.
 
-- `Bun.serve()` supports WebSockets, HTTPS, and routes. Don't use `express`.
-- `bun:sqlite` for SQLite. Don't use `better-sqlite3`.
-- `Bun.redis` for Redis. Don't use `ioredis`.
-- `Bun.sql` for Postgres. Don't use `pg` or `postgres.js`.
-- `WebSocket` is built-in. Don't use `ws`.
-- Prefer `Bun.file` over `node:fs`'s readFile/writeFile
-- Bun.$`ls` instead of execa.
+## Commands
 
-## Testing
-
-Use `bun test` to run tests.
-
-```ts#index.test.ts
-import { test, expect } from "bun:test";
-
-test("hello world", () => {
-  expect(1).toBe(1);
-});
+```bash
+bun install          # Install dependencies
+bun test             # Run all tests
+bun test tests/models/task.test.ts  # Run a single test file
+bun run typecheck    # Type check with tsc
+bun run build        # Build to ./dist
+bun run index.ts     # Run the CLI directly
 ```
 
-## Frontend
+## Architecture
 
-Use HTML imports with `Bun.serve()`. Don't use `vite`. HTML imports fully support React, CSS, Tailwind.
+**Entry Point**: `index.ts` → `src/index.ts` (Commander.js CLI setup)
 
-Server:
+**Core Layers**:
+- `src/commands/` - CLI command handlers (init, add, list, pop, done, status, move, archive, purge, edit, show, completion)
+- `src/storage/` - Data persistence layer
+  - `task-store.ts` - Main API for reading/writing tasks with atomic operations
+  - `storage-resolver.ts` - Determines local vs global storage location
+  - `file-lock.ts` - Cross-process file locking with exponential backoff
+- `src/models/` - Domain logic
+  - `task.ts` - Task operations (create, find, dependency checking)
+  - `id-generator.ts` - Generates `{7-char-hash}-{sequence}` task IDs
+- `src/types.ts` - TypeScript interfaces for Task, TasksFile, Config
+- `src/errors.ts` - Custom error classes (ChopError subclasses)
+- `src/config/paths.ts` - Path resolution for storage files
+- `src/utils/` - Display formatting and interactive prompts
 
-```ts#index.ts
-import index from "./index.html"
+**Concurrency**: All task modifications use `withLock()` for atomic read-modify-write operations. The `TaskStore.atomicUpdate()` method is the primary way to safely modify tasks.
 
-Bun.serve({
-  routes: {
-    "/": index,
-    "/api/users/:id": {
-      GET: (req) => {
-        return new Response(JSON.stringify({ id: req.params.id }));
-      },
-    },
-  },
-  // optional websocket support
-  websocket: {
-    open: (ws) => {
-      ws.send("Hello, world!");
-    },
-    message: (ws, message) => {
-      ws.send(message);
-    },
-    close: (ws) => {
-      // handle close
-    }
-  },
-  development: {
-    hmr: true,
-    console: true,
-  }
-})
-```
+**Storage**: Tasks stored in `tasks.json`, archived tasks in `tasks.archived.json`. Project identification uses git remote URL or repo path.
 
-HTML files can import .tsx, .jsx or .js files directly and Bun's bundler will transpile & bundle automatically. `<link>` tags can point to stylesheets and Bun's CSS bundler will bundle.
+## Specification
 
-```html#index.html
-<html>
-  <body>
-    <h1>Hello, world!</h1>
-    <script type="module" src="./frontend.tsx"></script>
-  </body>
-</html>
-```
-
-With the following `frontend.tsx`:
-
-```tsx#frontend.tsx
-import React from "react";
-import { createRoot } from "react-dom/client";
-
-// import .css files directly and it works
-import './index.css';
-
-const root = createRoot(document.body);
-
-export default function Frontend() {
-  return <h1>Hello, world!</h1>;
-}
-
-root.render(<Frontend />);
-```
-
-Then, run index.ts
-
-```sh
-bun --hot ./index.ts
-```
-
-For more information, read the Bun API docs in `node_modules/bun-types/docs/**.mdx`.
+See `specs/chop.md` for the complete CLI specification including all commands, options, and behaviors.

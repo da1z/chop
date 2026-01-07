@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(bun run:*)",
+      "Bash(bun test:*)",
+      "Bash(bunx tsc:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(gh pr view:*)"
+    ]
+  }
+}
