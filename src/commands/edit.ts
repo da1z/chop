@@ -100,14 +100,51 @@ function yamlToTaskEdit(content: string): TaskEditData {
   return result;
 }
 
+interface EditOptions {
+  title?: string;
+  desc?: string;
+}
+
 export function registerEditCommand(program: Command): void {
   program
     .command("edit <id>")
     .alias("e")
     .description("Edit a task in your default editor")
-    .action(async (id: string) => {
+    .option("-t, --title <title>", "Set task title directly")
+    .option("-d, --desc <description>", "Set task description directly")
+    .action(async (id: string, options: EditOptions) => {
       try {
         const store = await TaskStore.create();
+
+        // Inline edit mode: if --title or --desc provided, update directly
+        if (options.title !== undefined || options.desc !== undefined) {
+          // Validate title is not empty if provided
+          if (options.title !== undefined && options.title.trim() === "") {
+            throw new ChopError("Title cannot be empty");
+          }
+
+          const updatedTask = await store.atomicUpdate((data) => {
+            const task = findTaskById(id, data.tasks);
+            if (!task) {
+              throw new TaskNotFoundError(id);
+            }
+
+            if (options.title !== undefined) {
+              task.title = options.title.trim();
+            }
+            if (options.desc !== undefined) {
+              task.description = options.desc.trim() || undefined;
+            }
+            task.updatedAt = new Date().toISOString();
+
+            return { data, result: task };
+          });
+
+          console.log(`Updated task ${updatedTask.id}`);
+          return;
+        }
+
+        // Editor mode: open task in external editor
         const data = await store.readTasks();
 
         // Find the task
