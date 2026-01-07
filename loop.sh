@@ -32,7 +32,7 @@ if ! command -v jq &>/dev/null; then
   exit 1
 fi
 
-PROMPT='Execute ch pop to get the task you need to work on. Implement the task and make sure all tests pass and there are no TypeScript errors. Before marking the task as done, use @agent-general-purpose to perform a code review of your changes - ensure the subagent is satisfied with the code quality, all tests pass, and there are no TypeScript errors. Only after the code review is approved, mark the task as done using ch done <id> and commit changes using pk commit create -am <message>.'
+PROMPT='Execute ch pop to get the task you need to work on. Implement the task and make sure all tests pass and there are no TypeScript errors. Before marking the task as done, use @agent-general-purpose to perform a code review of your changes - ensure the subagent is satisfied with the code quality, all tests pass, and there are no TypeScript errors. Only after the code review is approved, mark the task as done using ch done <id> and commit changes using pk branch create -am <message>.'
 
 # ANSI color codes
 BLUE='\033[0;34m'
