@@ -1,5 +1,5 @@
 // Core task status
-export type TaskStatus = "open" | "in-progress" | "done" | "archived";
+export type TaskStatus = "draft" | "open" | "in-progress" | "done" | "archived";
 
 // Task model
 export interface Task {

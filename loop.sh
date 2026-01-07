@@ -191,11 +191,11 @@ for ((i = 1; i <= N; i++)); do
 
   if [ "$N" -eq 1 ]; then
     # Interactive mode for single run - no streaming
-    docker sandbox run claude "$PROMPT"
+    claude "$PROMPT"
   else
     # Non-interactive mode with streaming progress
     # Use script to provide pseudo-TTY since docker sandbox requires TTY
-    script -q /dev/null docker sandbox run claude -p "$PROMPT" --dangerously-skip-permissions --output-format stream-json --verbose 2>&1 | parse_stream
+    claude -p "$PROMPT" --dangerously-skip-permissions --output-format stream-json --verbose | parse_stream
   fi
 
   echo ""
