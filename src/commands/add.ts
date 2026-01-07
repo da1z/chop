@@ -17,6 +17,7 @@ export function registerAddCommand(program: Command): void {
     .option("-t, --top", "Add to top of queue")
     .option("-b, --bottom", "Add to bottom of queue (default)")
     .option("-d, --desc <description>", "Add description")
+    .option("--draft", "Create task as draft status")
     .option("--depends-on [id]", "Add dependency (can be repeated)", collectDependencies, [])
     .action(async (title: string, options) => {
       try {
@@ -45,6 +46,7 @@ export function registerAddCommand(program: Command): void {
             title,
             description: options.desc,
             dependsOn,
+            status: options.draft ? "draft" : "open",
           });
 
           if (options.top) {

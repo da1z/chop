@@ -44,6 +44,21 @@ describe("createTask", () => {
     expect(task.description).toBe("A description");
     expect(task.dependsOn).toEqual(["abc1234-1"]);
   });
+
+  test("creates task with draft status", () => {
+    const { task } = createTask(0, {
+      title: "Draft Task",
+      status: "draft",
+    });
+
+    expect(task.status).toBe("draft");
+  });
+
+  test("creates task with open status by default", () => {
+    const { task } = createTask(0, { title: "Open Task" });
+
+    expect(task.status).toBe("open");
+  });
 });
 
 describe("isBlocked", () => {

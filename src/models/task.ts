@@ -5,6 +5,7 @@ export interface CreateTaskOptions {
   title: string;
   description?: string;
   dependsOn?: string[];
+  status?: "draft" | "open";
 }
 
 // Create a new task
@@ -19,7 +20,7 @@ export function createTask(
     id,
     title: options.title,
     description: options.description,
-    status: "open",
+    status: options.status ?? "open",
     dependsOn: options.dependsOn || [],
     createdAt: now,
     updatedAt: now,
