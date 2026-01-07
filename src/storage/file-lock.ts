@@ -1,4 +1,11 @@
-import { openSync, closeSync, unlinkSync, existsSync, writeFileSync, readFileSync } from "node:fs";
+import {
+  closeSync,
+  existsSync,
+  openSync,
+  readFileSync,
+  unlinkSync,
+  writeSync,
+} from "node:fs";
 import { LockError } from "../errors.ts";
 
 // Retry delays in milliseconds (exponential backoff)
@@ -39,12 +46,19 @@ function tryAcquireLock(lockPath: string): boolean {
       pid: process.pid,
       timestamp: Date.now(),
     };
-    writeFileSync(lockPath, JSON.stringify(lockInfo));
+    // Write to fd before closing to avoid race condition where lock file
+    // exists but is empty
+    writeSync(fd, JSON.stringify(lockInfo));
     closeSync(fd);
     return true;
   } catch (error: unknown) {
     // File already exists (another process has the lock)
-    if (error && typeof error === "object" && "code" in error && error.code === "EEXIST") {
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      error.code === "EEXIST"
+    ) {
       return false;
     }
     // Some other error - rethrow

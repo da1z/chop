@@ -1,12 +1,10 @@
 import type { Command } from "commander";
-import { $ } from "bun";
-import { TaskStore } from "../storage/task-store.ts";
-import { isInitialized } from "../storage/storage-resolver.ts";
-import { getLocalStorageDir } from "../config/paths.ts";
-import { getGitRepoRoot } from "../utils/git.ts";
-import { select, confirm } from "../utils/prompts.ts";
 import { AlreadyInitializedError } from "../errors.ts";
+import { isInitialized } from "../storage/storage-resolver.ts";
+import { TaskStore } from "../storage/task-store.ts";
 import type { StorageLocation } from "../types.ts";
+import { getGitRepoRoot } from "../utils/git.ts";
+import { confirm, select } from "../utils/prompts.ts";
 
 export function registerInitCommand(program: Command): void {
   program
@@ -23,7 +21,10 @@ export function registerInitCommand(program: Command): void {
         const location = await select<StorageLocation>(
           "Where would you like to store tasks?",
           [
-            { value: "local", label: "Local (in .chop/ directory in this repo)" },
+            {
+              value: "local",
+              label: "Local (in .chop/ directory in this repo)",
+            },
             { value: "global", label: "Global (~/.local/share/chop/)" },
           ]
         );
@@ -50,7 +51,8 @@ export function registerInitCommand(program: Command): void {
 
             // Check if .chop is already in gitignore
             if (!content.includes(".chop")) {
-              const newContent = content + (content.endsWith("\n") ? "" : "\n") + ".chop/\n";
+              const newContent =
+                content + (content.endsWith("\n") ? "" : "\n") + ".chop/\n";
               await Bun.write(gitignorePath, newContent);
               console.log("Added .chop/ to .gitignore");
             }

@@ -1,6 +1,7 @@
 import type { Command } from "commander";
 import { tmpdir } from "os";
 import { join } from "path";
+import { unlinkSync } from "node:fs";
 import { TaskStore } from "../storage/task-store.ts";
 import { findTaskById, isValidStatus } from "../models/task.ts";
 import { TaskNotFoundError, ChopError, InvalidStatusError } from "../errors.ts";
@@ -179,7 +180,7 @@ export function registerEditCommand(program: Command): void {
         if (editedContent.trim() === "" || editedContent === originalContent) {
           console.log("No changes made. Edit cancelled.");
           // Clean up temp file
-          await Bun.write(tempPath, "");
+          unlinkSync(tempPath);
           return;
         }
 
@@ -214,7 +215,7 @@ export function registerEditCommand(program: Command): void {
         console.log(`Updated task ${task.id}`);
 
         // Clean up temp file
-        await Bun.write(tempPath, "");
+        unlinkSync(tempPath);
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);

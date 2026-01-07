@@ -67,7 +67,7 @@ _chop() {
         'p:Pop next task (alias)'
         'done:Mark a task as done'
         'd:Mark done (alias)'
-        'status:Show current task status'
+        'status:Change task status'
         'move:Move a task in the queue'
         'mv:Move task (alias)'
         'mt:Move task to top'
@@ -131,7 +131,7 @@ complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a pop -d "Start
 complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a p -d "Pop next task (alias)"
 complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a done -d "Mark a task as done"
 complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a d -d "Mark done (alias)"
-complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a status -d "Show current task status"
+complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a status -d "Change task status"
 complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a move -d "Move a task in the queue"
 complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a mv -d "Move task (alias)"
 complete -c chop -n "not __fish_seen_subcommand_from $all_cmds" -a mt -d "Move task to top"
@@ -158,7 +158,7 @@ complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a pop -d "Start w
 complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a p -d "Pop next task (alias)"
 complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a done -d "Mark a task as done"
 complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a d -d "Mark done (alias)"
-complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a status -d "Show current task status"
+complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a status -d "Change task status"
 complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a move -d "Move a task in the queue"
 complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a mv -d "Move task (alias)"
 complete -c ch -n "not __fish_seen_subcommand_from $all_cmds" -a mt -d "Move task to top"
