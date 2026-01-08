@@ -58,14 +58,27 @@ File locking with retry strategy to handle multiple processes:
 ### Initialization
 
 ```
-chop init
+chop init [options]
 ```
 
-Interactive setup prompting for:
+Options:
+- `--local` / `-l`: Use local storage (.chop/ directory)
+- `--global` / `-g`: Use global storage (~/.local/share/chop/)
+- `--gitignore`: Add .chop/ to .gitignore (local storage only)
+- `--no-gitignore`: Do not add .chop/ to .gitignore
+
+Without options, runs interactive setup prompting for:
 1. Storage location: local (in-repo) or global
 2. If local: add to .gitignore? (y/n)
 
 Creates the storage directory and empty tasks file.
+
+Examples:
+```
+chop init                         # Interactive mode
+chop init --local --gitignore     # Local storage, add to .gitignore
+chop init --global                # Global storage
+```
 
 ### Adding Tasks
 
@@ -150,10 +163,13 @@ chop status e5f6g7h-2 open
 ### Archiving Tasks
 
 ```
-chop archive <id>
+chop archive <id> [options]
 ```
 
-Move a task to archived storage. Requires confirmation.
+Options:
+- `--yes` / `-y`: Skip confirmation prompt
+
+Move a task to archived storage. Requires confirmation unless `-y` is used.
 
 Cascade behavior:
 - If task has dependents (other tasks depend on it), show warning listing affected tasks
@@ -165,18 +181,25 @@ When archiving a task that depends on other tasks, just remove the dependency li
 ### Purging Archives
 
 ```
-chop purge
+chop purge [options]
 ```
 
-Permanently delete all archived tasks. Requires confirmation.
+Options:
+- `--yes` / `-y`: Skip confirmation prompt
+
+Permanently delete all archived tasks. Requires confirmation unless `-y` is used.
 
 ### Editing Tasks
 
 ```
-chop edit <id>
+chop edit <id> [options]
 ```
 
-Opens task in `$EDITOR` (or `vi` if not set) as a temporary file with YAML/JSON format:
+Options:
+- `--title <title>` / `-t`: Set task title directly (non-interactive)
+- `--desc <description>` / `-d`: Set task description directly (non-interactive)
+
+Without options, opens task in `$EDITOR` (or `vi` if not set) as a temporary file with YAML/JSON format:
 ```yaml
 title: Implement login page
 description: |
@@ -256,6 +279,18 @@ Located at `.chop/config.json` (local) or `~/.config/chop/config.json` (global):
 }
 ```
 
+## Non-Interactive Mode
+
+When running in a non-interactive terminal (no TTY), commands that require user input will fail with an error unless the appropriate command-line flags are used:
+
+- `chop init`: Use `--local` or `--global` and `--gitignore`/`--no-gitignore`
+- `chop archive`: Use `--yes` to skip confirmation
+- `chop purge`: Use `--yes` to skip confirmation
+- `chop edit`: Use `--title` and/or `--desc` for inline edits
+- `chop add --depends-on`: Provide explicit task IDs instead of using the interactive picker
+
+This ensures chop works correctly in CI/CD pipelines, scripts, and other non-interactive environments.
+
 ## Error Handling
 
 Errors are concise one-liners:
@@ -264,6 +299,7 @@ Errors are concise one-liners:
 - `Error: Task a1b2c3d-1 not found`
 - `Error: Cannot acquire lock. Another process is accessing tasks`
 - `Error: Task has unarchived dependents: e5f6g7h-2, f8g9h0i-3`
+- `Error: Cannot <action> in non-interactive mode. Use command-line flags instead.`
 
 ## Exit Codes
 
