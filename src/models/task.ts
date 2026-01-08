@@ -96,3 +96,58 @@ export function getNextAvailableTask(tasks: Task[]): Task | undefined {
   }
   return undefined;
 }
+
+// Detect circular dependencies
+// Returns the cycle path if a circular dependency is found, null otherwise
+// For new tasks, pass taskId as the new task's prospective ID
+// For existing tasks being edited, pass the existing task's ID
+export function detectCircularDependency(
+  taskId: string,
+  dependsOn: string[],
+  tasks: Task[]
+): string[] | null {
+  // Build a dependency map from existing tasks
+  const dependencyMap = new Map<string, string[]>();
+  for (const task of tasks) {
+    dependencyMap.set(task.id, task.dependsOn);
+  }
+
+  // Override or add the target task's dependencies
+  dependencyMap.set(taskId, dependsOn);
+
+  // DFS to detect cycle starting from taskId
+  const visited = new Set<string>();
+  const recursionStack = new Set<string>();
+  const path: string[] = [];
+
+  function dfs(currentId: string): string[] | null {
+    visited.add(currentId);
+    recursionStack.add(currentId);
+    path.push(currentId);
+
+    const deps = dependencyMap.get(currentId) || [];
+    for (const depId of deps) {
+      // If we find the starting point (taskId) in the dependencies, we have a cycle
+      if (depId === taskId && recursionStack.has(taskId)) {
+        // Return the cycle path including the return to taskId
+        return [...path, taskId];
+      }
+
+      if (!visited.has(depId)) {
+        const cycle = dfs(depId);
+        if (cycle) return cycle;
+      } else if (recursionStack.has(depId)) {
+        // Found a cycle that doesn't involve taskId - but we only care about cycles involving taskId
+        // This shouldn't happen if we're only traversing from taskId
+        const cycleStart = path.indexOf(depId);
+        return [...path.slice(cycleStart), depId];
+      }
+    }
+
+    path.pop();
+    recursionStack.delete(currentId);
+    return null;
+  }
+
+  return dfs(taskId);
+}
