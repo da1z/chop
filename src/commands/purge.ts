@@ -22,7 +22,9 @@ export function registerPurgeCommand(program: Command): void {
 					return;
 				}
 
-				console.log(info(`Found ${archivedData.tasks.length} archived task(s)`));
+				console.log(
+					info(`Found ${archivedData.tasks.length} archived task(s)`),
+				);
 
 				let confirmed: boolean;
 				if (options.yes) {
